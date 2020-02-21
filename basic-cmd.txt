@@ -26,5 +26,28 @@ Basic cmd:-
 5- To select all documents in the collection,
 >db.inventory.find({})
 
+6- To format the results
+>db.inventory.find({}).pretty()
+
+7- For an equality match , specify <field>: <value>
+>db.inventory.find( { status: "D" } )
+>db.inventory.find( { qty: 0 } )
+>db.inventory.find( { qty: 0, status: "D" } )
+
+8- Nested match [inside the size document, equals "in"]
+>db.inventory.find( { "size.uom": "in" } )
+>db.inventory.find( { size: { h: 14, w: 21, uom: "cm" } } )
+
+9- To return documents where the tags array contains "red" as one of its elements:
+>db.inventory.find( { tags: "red" } )
+
+10- To return documents where the tags field matches the specified array exactly, including the order:
+>db.inventory.find( { tags: [ "red", "blank" ] } )
+
+
+
+
+
+
 
 
