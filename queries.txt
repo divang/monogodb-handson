@@ -1,0 +1,61 @@
+1- Create data:
+>db.inventory.insertMany([
+   { item: "journal", qty: 25, size: { h: 14, w: 21, uom: "cm" }, status: "A" },
+   { item: "notebook", qty: 50, size: { h: 8.5, w: 11, uom: "in" }, status: "A" },
+   { item: "paper", qty: 100, size: { h: 8.5, w: 11, uom: "in" }, status: "D" },
+   { item: "planner", qty: 75, size: { h: 22.85, w: 30, uom: "cm" }, status: "D" },
+   { item: "postcard", qty: 45, size: { h: 10, w: 15.25, uom: "cm" }, status: "A" }
+]);
+
+2- extact match
+>db.inventory.find( { status: "D" } )
+
+3- any one
+>db.inventory.find( { status: { $in: [ "A", "D" ] } } )
+
+4- AND Conditions
+>db.inventory.find( { status: "A", qty: { $lt: 30 } } )
+
+5- OR Conditions
+>db.inventory.find( { $or: [ { status: "A" }, { qty: { $lt: 30 } } ] } )
+
+6- AND as well as OR Conditions
+>db.inventory.find( {
+     status: "A",
+     $or: [ { qty: { $lt: 30 } }, { item: /^p/ } ]
+} )
+
+7- Match an Embedded/Nested Document
+>db.inventory.find( { size: { h: 14, w: 21, uom: "cm" } } )
+
+8- Equality Match on a Nested Field
+>db.inventory.find( { "size.uom": "in" } )
+
+9- Match using Query Operator
+>db.inventory.find( { "size.h": { $lt: 15 } } )
+
+10- AND Condition
+>db.inventory.find( { "size.h": { $lt: 15 }, "size.uom": "in", status: "D" } )
+
+11- Array Query
+db>db.inventory.insertMany([
+   { item: "journal", qty: 25, tags: ["blank", "red"], dim_cm: [ 14, 21 ] },
+   { item: "notebook", qty: 50, tags: ["red", "blank"], dim_cm: [ 14, 21 ] },
+   { item: "paper", qty: 100, tags: ["red", "blank", "plain"], dim_cm: [ 14, 21 ] },
+   { item: "planner", qty: 75, tags: ["blank", "red"], dim_cm: [ 22.85, 30 ] },
+   { item: "postcard", qty: 45, tags: ["blue"], dim_cm: [ 10, 15.25 ] }
+]);
+
+12- Match an Array with order
+db>db.inventory.find( { tags: ["red", "blank"] } )
+
+13- Match an Array any order
+db>db.inventory.find( { tags: { $all: ["red", "blank"] } } )
+
+14- Array with Compound Filter Conditions on the Array Elements
+db>db.inventory.find( { dim_cm: { $gt: 15, $lt: 20 } } )
+
+15- Array Element that Meets Multiple Criteria
+db>db.inventory.find( { dim_cm: { $elemMatch: { $gt: 22, $lt: 30 } } } )
+
+
