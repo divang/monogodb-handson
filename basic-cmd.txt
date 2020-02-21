@@ -44,10 +44,6 @@ Basic cmd:-
 10- To return documents where the tags field matches the specified array exactly, including the order:
 >db.inventory.find( { tags: [ "red", "blank" ] } )
 
-
-
-
-
-
-
-
+11- To specify fields to return, pass a projection document to the db.collection.find(<query document>, <projection document>) method. In the projection document 1: include, 0: exclude.
+>db.inventory.find( { }, { item: 1, status: 1 } );
+>db.inventory.find( {}, { _id: 0, item: 1, status: 1 } );
