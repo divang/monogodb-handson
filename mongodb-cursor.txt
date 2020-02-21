@@ -1,0 +1,36 @@
+1- Cursor in the mongo Shell: The db.collection.find() method returns a cursor. 
+To access the documents, you need to iterate the cursor. However, in the mongo shell, 
+if the returned cursor is not assigned to a variable using the var keyword, 
+then the cursor is automatically iterated up to 20 times [1] 
+to print up to the first 20 documents in the results.
+>db.inventory.insertMany([
+   { item: "journal", qty: 25, size: { h: 14, w: 21, uom: "cm" }, status: "A" },
+   { item: "notebook", qty: 50, size: { h: 8.5, w: 11, uom: "in" }, status: "A" },
+   { item: "paper", qty: 100, size: { h: 8.5, w: 11, uom: "in" }, status: "D" },
+   { item: "planner", qty: 75, size: { h: 22.85, w: 30, uom: "cm" }, status: "D" },
+   { item: "postcard", qty: 45, size: { h: 10, w: 15.25, uom: "cm" }, status: "A" }
+]);
+
+2- Iterate the Cursor via while
+>var myCursor = db.inventory.find();
+>while (myCursor.hasNext()) {
+   print(tojson(myCursor.next()));
+}
+
+3- Iterate the Cursor via forEach
+>var myCursor = db.inventory.find();
+>myCursor.forEach(printjson);
+
+4- Use the DBQuery.shellBatchSize to change the number of iteration from the default value 20
+
+5- Iterator Index: The toArray() method loads into RAM all documents returned by the cursor; 
+the toArray() method exhausts the cursor.
+>var myCursor = db.inventory.find();
+>var documentArray = myCursor.toArray();
+>var myDocument = documentArray[3];
+
+=================================================
+6- Cursor Behaviors
+=================================================
+
+
