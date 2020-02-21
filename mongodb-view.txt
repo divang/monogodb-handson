@@ -1,0 +1,63 @@
+1- To create database
+>use feedback
+
+2- To create survey collection
+>db.survey.insertMany([
+{ _id: 1, empNumber: "abc123", feedback: { management: 3, environment: 3 }, department: "A" },
+{ _id: 2, empNumber: "xyz987", feedback: { management: 2, environment: 3 }, department: "B" },
+{ _id: 3, empNumber: "ijk555", feedback: { management: 3, environment: 4 }, department: "A" }
+]);
+
+3- To create a managementFeedback view with the _id, feedback.management, and department fields:
+>db.createView(
+   "managementFeedback",
+   "survey",
+   [ { $project: { "management": "$feedback.management", department: 1 } } ]
+)
+
+4- To query the view
+>db.managementFeedback.find()
+
+5- Perform Aggregation Pipeline on a View: 
+[operation performs an aggregation on the managementFeedback view, 
+using the $sortByCount to group by the department field and 
+sort in descending order by the count of each distinct department]
+>db.managementFeedback.aggregate([ { $sortByCount: "$department" } ] )
+
+6- Create a View from Multiple Collections, orders collection
+>>db.orders.insertMany([
+{ "_id" : 1, "item" : "abc", "price" : NumberDecimal("12.00"), "quantity" : 2 },
+{ "_id" : 2, "item" : "jkl", "price" : NumberDecimal("20.00"), "quantity" : 1 },
+{ "_id" : 3, "item" : "abc", "price" : NumberDecimal("10.95"), "quantity" : 5 },
+{ "_id" : 4, "item" : "xyz", "price" : NumberDecimal("5.95"), "quantity" : 5 },
+{ "_id" : 5, "item" : "xyz", "price" : NumberDecimal("5.95"), "quantity" : 10 }
+]);
+
+7- Create a View from Multiple Collections, inventory collection
+>>db.inventory.insertMany([
+{ "_id" : 1, "sku" : "abc", description: "product 1", "instock" : 120 },
+{ "_id" : 2, "sku" : "def", description: "product 2", "instock" : 80 },
+{ "_id" : 3, "sku" : "ijk", description: "product 3", "instock" : 60 },
+{ "_id" : 4, "sku" : "jkl", description: "product 4", "instock" : 70 },
+{ "_id" : 5, "sku" : "xyz", description: "product 5", "instock" : 200 }
+]);
+
+8- The following db.createView() example specifies a $lookup stage 
+to create a view from the join of the two collections:
+>db.createView (
+   "orderDetails",
+   "orders",
+   [
+     { $lookup: { from: "inventory", localField: "item", foreignField: "sku", as: "inventory_docs" } },
+     { $project: { "inventory_docs._id": 0, "inventory_docs.sku": 0 } }
+   ]
+)
+
+9- To query the view
+>db.orderDetails.find()
+
+10- Perform Aggregation Pipeline on a View: [performs an aggregation on the orderDetails view, 
+using the $sortByCount to group by the item field and 
+sort in descending order by the count of each distinct item]
+>db.orderDetails.aggregate( [ { $sortByCount: "$item" } ] )
+
