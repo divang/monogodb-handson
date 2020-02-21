@@ -32,5 +32,26 @@ the toArray() method exhausts the cursor.
 =================================================
 6- Cursor Behaviors
 =================================================
+By default, the server will automatically close the cursor after 10 minutes of inactivity, or if client has exhausted the cursor. To override this behavior in the mongo shell, you can use the cursor.noCursorTimeout() method.
+
+7- Closure of Inactive Cursors
+>var myCursor = db.inventory.find().noCursorTimeout();
+
+8- Cursor Isolation :  As a cursor returns documents, other operations may interleave with the query.
+
+9- Cursor Batches : The MongoDB server returns the query results in batches. The amount of data in the batch will not exceed the maximum BSON document size. To override the default size of the batch, see batchSize() and limit(). 
+
+10- Version 3.4 on ward it returns a maximum of 16 megabytes per batch.
+
+11- find() and aggregate() operations have an initial batch size of 101 documents by default.
+
+12- Subsequent getMore operations issued against the resulting cursor have no default batch size, so they are limited only by the 16 megabyte message size.
+
+13- how many documents remain in the batch as you iterate the cursor, you can use the objsLeftInBatch() method.
+
+
+
+
+
 
 
