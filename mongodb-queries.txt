@@ -37,7 +37,10 @@
 10- AND Condition
 >db.inventory.find( { "size.h": { $lt: 15 }, "size.uom": "in", status: "D" } )
 
+========================================================================================
 11- Array Query
+========================================================================================
+
 db>db.inventory.insertMany([
    { item: "journal", qty: 25, tags: ["blank", "red"], dim_cm: [ 14, 21 ] },
    { item: "notebook", qty: 50, tags: ["red", "blank"], dim_cm: [ 14, 21 ] },
@@ -58,4 +61,48 @@ db>db.inventory.find( { dim_cm: { $gt: 15, $lt: 20 } } )
 15- Array Element that Meets Multiple Criteria
 db>db.inventory.find( { dim_cm: { $elemMatch: { $gt: 22, $lt: 30 } } } )
 
+16- Array by Array Length
+db>db.inventory.find( { "tags": { $size: 3 } } )
 
+========================================================================================
+17- Array of Embedded Documents
+========================================================================================
+
+>db.inventory.insertMany( [
+   { item: "journal", instock: [ { warehouse: "A", qty: 5 }, { warehouse: "C", qty: 15 } ] },
+   { item: "notebook", instock: [ { warehouse: "C", qty: 5 } ] },
+   { item: "paper", instock: [ { warehouse: "A", qty: 60 }, { warehouse: "B", qty: 15 } ] },
+   { item: "planner", instock: [ { warehouse: "A", qty: 40 }, { warehouse: "B", qty: 5 } ] },
+   { item: "postcard", instock: [ { warehouse: "B", qty: 15 }, { warehouse: "C", qty: 35 } ] }
+]);
+
+18- Document Nested in an Array
+>db.inventory.find( { "instock": { warehouse: "A", qty: 5 } } )
+
+19- Query Condition on a Field Embedded in an Array of Documents
+>db.inventory.find( { 'instock.qty': { $lte: 20 } } )
+
+20- Array Index to Query for a Field in the Embedded Document
+>db.inventory.find( { 'instock.0.qty': { $lte: 20 } } )
+
+21- Nested Document Meets Multiple Query Conditions on Nested Fields
+>db.inventory.find( { "instock": { $elemMatch: { qty: 5, warehouse: "A" } } } )
+>db.inventory.find( { "instock": { $elemMatch: { qty: { $gt: 10, $lte: 20 } } } } )
+
+22- Array Elements in the Returned Array [The following example uses the $slice projection operator to return the last element in the instock array]
+>db.inventory.find( { status: "A" }, { item: 1, status: 1, instock: { $slice: -1 } } )
+
+========================================================================================
+23-  Null or Missing Fields
+========================================================================================
+
+db.inventory.insertMany([
+   { _id: 1, item: null },
+   { _id: 2 }
+])
+
+24- Equality Filter
+>db.inventory.find( { item: null } )
+
+25- Existence Check
+>db.inventory.find( { item : { $exists: false } } )
