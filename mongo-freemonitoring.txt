@@ -7,3 +7,6 @@
 "userReminder" : "",
 "ok" : 1
 }
+
+2- Local monitoring of Server 
+>db.serverStatus()
