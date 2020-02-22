@@ -40,6 +40,8 @@
 ========================================================================================
 11- Array Query
 ========================================================================================
+clean Collection:
+>db.inventory.deleteMany({});
 
 db>db.inventory.insertMany([
    { item: "journal", qty: 25, tags: ["blank", "red"], dim_cm: [ 14, 21 ] },
@@ -90,7 +92,7 @@ db>db.inventory.find( { "tags": { $size: 3 } } )
 >db.inventory.find( { "instock": { $elemMatch: { qty: { $gt: 10, $lte: 20 } } } } )
 
 22- Array Elements in the Returned Array [The following example uses the $slice projection operator to return the last element in the instock array]
->db.inventory.find( { status: "A" }, { item: 1, status: 1, instock: { $slice: -1 } } )
+>db.inventory.find( { item: "notebook" }, { item: 1, status: 1, instock: { $slice: -1 } } )
 
 ========================================================================================
 23-  Null or Missing Fields
