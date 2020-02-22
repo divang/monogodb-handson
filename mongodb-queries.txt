@@ -69,6 +69,8 @@ db>db.inventory.find( { "tags": { $size: 3 } } )
 ========================================================================================
 17- Array of Embedded Documents
 ========================================================================================
+clean Collection:
+>db.inventory.deleteMany({});
 
 >db.inventory.insertMany( [
    { item: "journal", instock: [ { warehouse: "A", qty: 5 }, { warehouse: "C", qty: 15 } ] },
@@ -92,7 +94,7 @@ db>db.inventory.find( { "tags": { $size: 3 } } )
 >db.inventory.find( { "instock": { $elemMatch: { qty: { $gt: 10, $lte: 20 } } } } )
 
 22- Array Elements in the Returned Array [The following example uses the $slice projection operator to return the last element in the instock array]
->db.inventory.find( { item: "notebook" }, { item: 1, status: 1, instock: { $slice: -1 } } )
+>db.inventory.find( { item: "planner" }, { item: 1, status: 1, instock: { $slice: -1 } } )
 
 ========================================================================================
 23-  Null or Missing Fields
