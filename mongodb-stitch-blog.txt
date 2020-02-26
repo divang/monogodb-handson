@@ -28,3 +28,82 @@ Click Rules under MongoDB Atlas in the left-hand navigation of the Stitch UI.
 
 7- Deploy Your Application. Click Review & Deploy Changes in the banner at the top of the Stitch UI and then click Deploy.
 
+8- Create a Web Client: Create a html page: blog.html
+
+HTML Code:
+ <html>
+  <head>
+  </head>
+  <body>
+    <h3>This is a stitch blog post</h3>
+    <div id="content">
+      MonogDB tutorial Content, please give your suggestion!!!
+    </div>
+    <hr>
+    <div id="comments"></div>
+  </body>
+</html>
+
+9- Include the MongoDB Stitch JavaScript SDK
+
+JavaScript Code:
+<script src="https://s3.amazonaws.com/stitch-sdks/js/bundles/4/stitch.js"></script>
+
+10- Apps communicate with Stitch by calling methods on client objects from the Stitch SDK. We need to initialize an app client and a MongoDB Service client to store comments in MongoDB.
+
+JavaScript Code:
+<script>
+  // Initialize the App Client
+  const client = stitch.Stitch.initializeDefaultAppClient("<your-app-id>");
+  // Get a MongoDB Service Client
+  const mongodb = client.getServiceClient(
+    stitch.RemoteMongoClient.factory,
+    "mongodb-atlas"
+  );
+  // Get a reference to the blog database
+  const db = mongodb.db("blog");
+</script>
+
+11- Query and Display Comments on Page Load:
+
+JavaScript Code (paste inside <script> tag):
+function displayComments() {
+  db.collection("comments")
+    .find({}, {limit: 1000})
+    .toArray()
+    .then(docs => {
+      const html = docs.map(doc => `<div>${doc.comment}</div>`);
+      document.getElementById("comments").innerHTML = html;
+    });
+}
+
+12- Log In and Display Comments On Load:
+
+JavaScript Code (paste inside <script> tag):
+function displayCommentsOnLoad() {
+  client.auth
+    .loginWithCredential(new stitch.AnonymousCredential())
+    .then(displayComments)
+    .catch(console.error);
+}
+
+13- On HTML body load, modify body tag:
+HTML Code:
+<body onload="displayCommentsOnLoad()">
+
+14- Add a Form for Submitting Comments:
+
+JavaScript Code (paste inside <script> tag):
+function addComment() {
+  const newComment = document.getElementById("new_comment");
+  console.log("add comment", client.auth.user.id)
+  db.collection("comments")
+    .insertOne({ owner_id : client.auth.user.id, comment: newComment.value })
+    .then(displayComments);
+  newComment.value = "";
+}
+
+15- Submit Comment to blog MongoDB service:
+<hr>
+Add comment:
+<input id="new_comment"><input type="submit" onClick="addComment()">
