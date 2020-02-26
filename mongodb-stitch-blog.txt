@@ -1,0 +1,30 @@
+Why Stitch?
+You may ask why we’d use Stitch for something like this, considering that we could easily just write 
+an application that talks directly to MongoDB instead. The answer is user management and security: 
+even in this simple case, Stitch user management ensures that no user can update or delete comments 
+that don’t belong to them. Stitch handles both the authentication (login) and authorization (permissions) 
+aspects of user management, and all we have to do is enable anonymous authentication and declare 
+a single access rule. All of the other aspects of user management, SSO, and the boilerplate code normally 
+associated with users is abstracted away and taken care of for us by Stitch. Stitch’s serverless architecture 
+abstracts away servers, routing, and load balancing as well, so we can focus on the content of our blog, 
+rather than the details of how’s it’s being served to an end user.
+
+Steps:
+1- Setup the Cloud based MongoDB Service via Atlas
+>https://docs.atlas.mongodb.com/getting-started/
+
+2- Login to Atlas, go to left panel, click on Stitch
+>https://stitch.mongodb.com/
+
+3- Create New Application. Give the application a name (e.g. BlogTutorial) and click Create. 
+Wait for your application to initialize. Upon creation of your app, you will be redirected to the Stitch UI.
+
+4- Turn on Anonymous Authentication
+
+5- Configure the blog.comments MongoDB Collection
+
+6- Click Add Collection. Enter blog for the Database Name. Enter comments for the Collection Name. Click Add Collection. 
+Click Rules under MongoDB Atlas in the left-hand navigation of the Stitch UI.
+
+7- Deploy Your Application. Click Review & Deploy Changes in the banner at the top of the Stitch UI and then click Deploy.
+
