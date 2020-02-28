@@ -43,3 +43,73 @@ Collection scans indicate that the mongod had to scan the entire collection (can
 6- executionStats.nReturned displays 3 to indicate that the query matches and returns three documents.
 
 7- executionStats.totalKeysExamined displays 0 to indicate that this is query is not using an index.
+
+8- Query with Index
+> db.inventory.createIndex( { quantity: 1 } )
+
+output>
+  .....
+  "winningPlan" : {
+						"stage" : "FETCH",
+						"inputStage" : {
+							"stage" : "IXSCAN",
+  .....
+  .....
+  "executionStats" : {
+		"nReturned" : 3,
+		"executionTimeMillis" : 2,
+		"totalKeysExamined" : 3,
+		"totalDocsExamined" : 3,
+  .....
+  
+9- queryPlanner.winningPlan.inputStage.stage displays IXSCAN to indicate index use.
+
+10- executionStats.nReturned displays 3 to indicate that the query matches and returns three documents.
+
+11- executionStats.totalKeysExamined displays 3 to indicate that MongoDB scanned three index entries. The mongod did not have to scan all of the documents, and only the three matching documents had to be pulled into memory. This results in a very efficient query.
+
+12- executionStats.totalDocsExamined display 3 to indicate that MongoDB scanned three documents.
+
+13- Compare Performance of Indexes: use the hint() method in conjunction with the explain() method.
+> db.inventory.find( {
+   quantity: {
+      $gte: 100, $lte: 300
+   },
+   type: "food"
+} )
+
+14- Create two indexes:
+> db.inventory.createIndex( { quantity: 1, type: 1 } )
+> db.inventory.createIndex( { type: 1, quantity: 1 } )
+
+15- Evaluate the effect of the first index on the query:
+> db.inventory.find(
+{ quantity: { $gte: 100, $lte: 300 }, type: "food" }
+).hint({ quantity: 1, type: 1}).explain("executionStats")
+
+output> 
+...
+"executionStats" : {
+      "executionSuccess" : true,
+      "nReturned" : 2,
+      "executionTimeMillis" : 0,
+      "totalKeysExamined" : 5,
+      "totalDocsExamined" : 2,
+...
+
+16-
+> db.inventory.find(
+{ quantity: { $gte: 100, $lte: 300 }, type: "food" }
+).hint({ type: 1, quantity: 1 }).explain("executionStats") 
+
+output>
+...
+"executionStats" : {
+      "executionSuccess" : true,
+      "nReturned" : 2,
+      "executionTimeMillis" : 0,
+      "totalKeysExamined" : 2,
+      "totalDocsExamined" : 2,
+...      
+
+							
