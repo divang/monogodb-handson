@@ -1,0 +1,30 @@
+1- Start each member of the config server replica set.
+> mkdir /srv/mongodb/config-rs-0
+> mongod --configsvr --replSet config-rs-0 --dbpath /srv/mongodb/config-rs-0 --bind_ip localhost
+
+2- Connect to one of the config servers
+> mongo --host localhost --port 27019
+
+3- Initiate the replica set
+> rs.initiate()
+
+4- Once the Config Server Replica Set (CSRS) is initiated and up, proceed to creating the shard replica sets.
+
+5- Create the Shard Replica Sets: Shard replica sets must not use the same name as the config server replica set.
+
+6- Start each member of the shard replica set
+> mkdir /srv/mongodb/shard-rs-0
+> mongod --shardsvr --replSet shard-rs-0  --dbpath /srv/mongodb/shard-rs-0 --bind_ip localhost
+
+7- Connect to one member of the shard replica set
+> mongo --host localhost --port 27018
+
+8- Initiate the replica set
+> rs.initiate()
+
+9- Start a mongos for the Sharded Cluster
+> mongos --configdb config-rs-0/localhost:27019 --bind_ip localhost
+
+10- Connect to the Sharded Cluster
+> mongo --host localhost --port 27017
+
