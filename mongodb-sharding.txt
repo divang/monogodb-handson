@@ -28,3 +28,11 @@
 10- Connect to the Sharded Cluster
 > mongo --host localhost --port 27017
 
+11- Add Shards to the Cluster
+> sh.addShard( "shard-rs-0/localhost:27018")
+
+12- Enable Sharding for a Database
+> sh.enableSharding("testdb")
+
+13- Shard a Collection
+> sh.shardCollection("testdb.testcollection", { _id : "hashed" } )
