@@ -180,3 +180,15 @@ output>
 9- Check replica set status again
 > rs.status()
 
+10- Now, try to stop Primary replica and try to check the new Primary Election:
+> stop mongod which is running on port: 27017 [or primary node]
+
+output of other node> 
+2020-02-28T20:08:12.703+0530 I  ELECTION [conn2] Starting an election due to step up request
+2020-02-28T20:08:12.703+0530 I  ELECTION [conn2] skipping dry run and running for election in term 2
+2020-02-28T20:08:12.710+0530 I  REPL     [replexec-1] Scheduling remote command request for vote request: RemoteCommand 985 -- target:localhost:27017 db:admin cmd:{ replSetRequestVotes: 1, setName: "rs1", dryRun: false, term: 2, candidateIndex: 1, configVersion: 3, lastCommittedOp: { ts: Timestamp(1582900685, 1), t: 1 } }
+2020-02-28T20:08:12.710+0530 I  REPL     [replexec-1] Scheduling remote command request for vote request: RemoteCommand 986 -- target:localhost:27019 db:admin cmd:{ replSetRequestVotes: 1, setName: "rs1", dryRun: false, term: 2, candidateIndex: 1, configVersion: 3, lastCommittedOp: { ts: Timestamp(1582900685, 1), t: 1 } }
+2020-02-28T20:08:12.710+0530 I  ELECTION [replexec-2] VoteRequester(term 2) received an invalid response from localhost:27017: ShutdownInProgress: In the process of shutting down; response message: { operationTime: Timestamp(1582900685, 1), ok: 0.0, errmsg: "In the process of shutting down", code: 91, codeName: "ShutdownInProgress", $clusterTime: { clusterTime: Timestamp(1582900685, 1), signature: { hash: BinData(0, 0000000000000000000000000000000000000000), keyId: 0 } } }
+2020-02-28T20:08:12.716+0530 I  ELECTION [replexec-1] VoteRequester(term 2) received a yes vote from localhost:27019; response message: { term: 2, voteGranted: true, reason: "", ok: 1.0, $clusterTime: { clusterTime: Timestamp(1582900685, 1), signature: { hash: BinData(0, 0000000000000000000000000000000000000000), keyId: 0 } }, operationTime: Timestamp(1582900685, 1) }
+2020-02-28T20:08:12.716+0530 I  ELECTION [replexec-1] election succeeded, assuming primary role in term 2
+2020-02-28T20:08:12.716+0530 I  REPL     [replexec-1] transition to PRIMARY from SECONDARY
