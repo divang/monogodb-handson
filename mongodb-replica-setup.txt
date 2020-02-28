@@ -1,0 +1,165 @@
+Set Up a Replica Set
+1- Shutdown already running MongoDB server.
+
+2- Command to start the MongoDB server by specifying -- replSet option
+mongod --port "PORT" --dbpath "YOUR_DB_DATA_PATH" --replSet "REPLICA_SET_INSTANCE_NAME"
+
+3- Create DB data path
+> mkdir -p /home/mongouser/mongodb_hands_on/data/replica-set-data/db0
+
+4- Start the MongoDB server
+> mongod --port 27017 --dbpath "/home/mongouser/mongodb_hands_on/data/replica-set-data/db0" --replSet rs0 --bind_ip localhost
+
+5- In Mongo client, issue the command below cmd to initiate a new replica set.
+> rs.initiate() 
+
+output> 
+{
+	"info2" : "no configuration specified. Using a default configuration for the set",
+	"me" : "localhost:27017",
+	"ok" : 1,
+	"$clusterTime" : {
+		"clusterTime" : Timestamp(1582894510, 1),
+		"signature" : {
+			"hash" : BinData(0,"AAAAAAAAAAAAAAAAAAAAAAAAAAA="),
+			"keyId" : NumberLong(0)
+		}
+	},
+	"operationTime" : Timestamp(1582894510, 1)
+}
+
+6- To check the replica set configuration, issue the command 
+> rs.conf()
+
+output>
+{
+	"_id" : "rs0",
+	"version" : 1,
+	"protocolVersion" : NumberLong(1),
+	"writeConcernMajorityJournalDefault" : true,
+	"members" : [
+		{
+			"_id" : 0,
+			"host" : "localhost:27017",
+			"arbiterOnly" : false,
+			"buildIndexes" : true,
+			"hidden" : false,
+			"priority" : 1,
+			"tags" : {
+
+			},
+			"slaveDelay" : NumberLong(0),
+			"votes" : 1
+		}
+	],
+	"settings" : {
+		"chainingAllowed" : true,
+		"heartbeatIntervalMillis" : 2000,
+		"heartbeatTimeoutSecs" : 10,
+		"electionTimeoutMillis" : 10000,
+		"catchUpTimeoutMillis" : -1,
+		"catchUpTakeoverDelayMillis" : 30000,
+		"getLastErrorModes" : {
+
+		},
+		"getLastErrorDefaults" : {
+			"w" : 1,
+			"wtimeout" : 0
+		},
+		"replicaSetId" : ObjectId("5e590dae74cc8536c9044c35")
+	}
+}
+
+7- Ensure that the replica set has a primary 
+> rs.status()
+
+output>
+{
+	"set" : "rs0",
+	"date" : ISODate("2020-02-28T12:59:28.446Z"),
+	"myState" : 1,
+	"term" : NumberLong(1),
+	"syncingTo" : "",
+	"syncSourceHost" : "",
+	"syncSourceId" : -1,
+	"heartbeatIntervalMillis" : NumberLong(2000),
+	"majorityVoteCount" : 1,
+	"writeMajorityCount" : 1,
+	"optimes" : {
+		"lastCommittedOpTime" : {
+			"ts" : Timestamp(1582894761, 1),
+			"t" : NumberLong(1)
+		},
+		"lastCommittedWallTime" : ISODate("2020-02-28T12:59:21.589Z"),
+		"readConcernMajorityOpTime" : {
+			"ts" : Timestamp(1582894761, 1),
+			"t" : NumberLong(1)
+		},
+		"readConcernMajorityWallTime" : ISODate("2020-02-28T12:59:21.589Z"),
+		"appliedOpTime" : {
+			"ts" : Timestamp(1582894761, 1),
+			"t" : NumberLong(1)
+		},
+		"durableOpTime" : {
+			"ts" : Timestamp(1582894761, 1),
+			"t" : NumberLong(1)
+		},
+		"lastAppliedWallTime" : ISODate("2020-02-28T12:59:21.589Z"),
+		"lastDurableWallTime" : ISODate("2020-02-28T12:59:21.589Z")
+	},
+	"lastStableRecoveryTimestamp" : Timestamp(1582894751, 1),
+	"lastStableCheckpointTimestamp" : Timestamp(1582894751, 1),
+	"electionCandidateMetrics" : {
+		"lastElectionReason" : "electionTimeout",
+		"lastElectionDate" : ISODate("2020-02-28T12:55:10.494Z"),
+		"electionTerm" : NumberLong(1),
+		"lastCommittedOpTimeAtElection" : {
+			"ts" : Timestamp(0, 0),
+			"t" : NumberLong(-1)
+		},
+		"lastSeenOpTimeAtElection" : {
+			"ts" : Timestamp(1582894510, 1),
+			"t" : NumberLong(-1)
+		},
+		"numVotesNeeded" : 1,
+		"priorityAtElection" : 1,
+		"electionTimeoutMillis" : NumberLong(10000),
+		"newTermStartDate" : ISODate("2020-02-28T12:55:11.528Z"),
+		"wMajorityWriteAvailabilityDate" : ISODate("2020-02-28T12:55:11.566Z")
+	},
+	"members" : [
+		{
+			"_id" : 0,
+			"name" : "localhost:27017",
+			"health" : 1,
+			"state" : 1,
+			"stateStr" : "PRIMARY",
+			"uptime" : 272,
+			"optime" : {
+				"ts" : Timestamp(1582894761, 1),
+				"t" : NumberLong(1)
+			},
+			"optimeDate" : ISODate("2020-02-28T12:59:21Z"),
+			"syncingTo" : "",
+			"syncSourceHost" : "",
+			"syncSourceId" : -1,
+			"infoMessage" : "",
+			"electionTime" : Timestamp(1582894510, 2),
+			"electionDate" : ISODate("2020-02-28T12:55:10Z"),
+			"configVersion" : 1,
+			"self" : true,
+			"lastHeartbeatMessage" : ""
+		}
+	],
+	"ok" : 1,
+	"$clusterTime" : {
+		"clusterTime" : Timestamp(1582894761, 1),
+		"signature" : {
+			"hash" : BinData(0,"AAAAAAAAAAAAAAAAAAAAAAAAAAA="),
+			"keyId" : NumberLong(0)
+		}
+	},
+	"operationTime" : Timestamp(1582894761, 1)
+}
+
+
