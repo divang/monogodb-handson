@@ -208,3 +208,5 @@ output of other node>
 > rs.slaveOk()
 > db.inventory.find({})
 
+14- Or set the rs.slaveOk() in ~/.mongorc.js file.
+
