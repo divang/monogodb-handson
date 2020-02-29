@@ -192,3 +192,19 @@ output of other node>
 2020-02-28T20:08:12.716+0530 I  ELECTION [replexec-1] VoteRequester(term 2) received a yes vote from localhost:27019; response message: { term: 2, voteGranted: true, reason: "", ok: 1.0, $clusterTime: { clusterTime: Timestamp(1582900685, 1), signature: { hash: BinData(0, 0000000000000000000000000000000000000000), keyId: 0 } }, operationTime: Timestamp(1582900685, 1) }
 2020-02-28T20:08:12.716+0530 I  ELECTION [replexec-1] election succeeded, assuming primary role in term 2
 2020-02-28T20:08:12.716+0530 I  REPL     [replexec-1] transition to PRIMARY from SECONDARY
+
+11- To validate replication. Run two Mongo clients, one should connect to Master and other one should connect to Secondary. 
+
+12- In Master Mongo client: 
+>db.inventory.insertMany([
+   { item: "journal", qty: 25, status: "A", size: { h: 14, w: 21, uom: "cm" }, tags: [ "blank", "red" ] },
+   { item: "notebook", qty: 50, status: "A", size: { h: 8.5, w: 11, uom: "in" }, tags: [ "red", "blank" ] },
+   { item: "paper", qty: 10, status: "D", size: { h: 8.5, w: 11, uom: "in" }, tags: [ "red", "blank", "plain" ] },
+   { item: "planner", qty: 0, status: "D", size: { h: 22.85, w: 30, uom: "cm" }, tags: [ "blank", "red" ] },
+   { item: "postcard", qty: 45, status: "A", size: { h: 10, w: 15.25, uom: "cm" }, tags: [ "blue" ] }
+]);
+
+13- In Secondary Mongo client: 
+> rs.slaveOk()
+> db.inventory.find({})
+
