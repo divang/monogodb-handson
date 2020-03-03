@@ -6,7 +6,7 @@
 
 3- Create the user administrator. A user with the userAdminAnyDatabase role in the admin database. Starting in version 4.2 of the mongo shell, you can use the passwordPrompt() method
 > use admin
-db.createUser(
+> db.createUser(
   {
     user: "myUserAdmin",
     pwd: passwordPrompt(), 
@@ -27,7 +27,7 @@ Exit the mongo shell
 7- Create additional users as needed for your deployment: Adds a user myTester to the test database 
 who has readWrite role in the test database as well as read role in the reporting database.
 > use test
-db.createUser(
+> db.createUser(
   {
     user: "myTester",
     pwd:  passwordPrompt(),   
@@ -36,8 +36,12 @@ db.createUser(
   }
 )
 
-8- Connect to the instance and authenticate as myTester
+8- Connect to the instance and authenticate as myTester (while connection)
 > mongo --port 27017 -u "myTester" --authenticationDatabase "test" -p
 
 9- Insert a document as myTester.
 > db.foo.insert( { x: 1, y: 1 } )
+
+10- Authenticate after connection
+> use test
+> db.auth("myTester", passwordPrompt()) 
