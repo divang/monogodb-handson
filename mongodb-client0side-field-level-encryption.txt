@@ -1,0 +1,23 @@
+1- start mongocryptd
+> mongocryptd
+
+2- start mongo server
+> mongod --dbpath /opt/mongodb
+
+3- Clone node js project
+> git clone https://github.com/mongodb-university/csfle-guides.git
+> cd nodejs
+
+4- Install node js dependencies
+> npm install
+
+5- To make a data key 
+> node make-data-key.js
+
+6- Paste this into clients.js
+> let dataKey = <paste here the above generated key>
+
+7- Run the clients.js script to insert a document with the CSFLE-enabled client and 
+then read that document with it as well as a regular client. 
+The regular client prints the document out with encrypted fields in binary format.  
+> node clients.js
