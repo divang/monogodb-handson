@@ -1,4 +1,7 @@
-1- start mongocryptd [mongocryptd supports Automatic Client-Side Field Level Encryption and is only available with MongoDB Enterprise. Required by the client]
+1- start mongocryptd 
+[mongocryptd supports Automatic Client-Side Field Level Encryption and is only available with MongoDB Enterprise. 
+Required by the client. 
+Ref: https://docs.mongodb.com/manual/reference/security-client-side-encryption-appendix/#mongocryptd]
 > mongocryptd
 
 2- start mongo server
