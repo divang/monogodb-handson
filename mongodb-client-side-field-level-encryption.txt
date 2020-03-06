@@ -1,10 +1,10 @@
-1- start mongocryptd
+1- start mongocryptd [mongocryptd supports Automatic Client-Side Field Level Encryption and is only available with MongoDB Enterprise. Required by the client]
 > mongocryptd
 
 2- start mongo server
 > mongod --dbpath /opt/mongodb
 
-3- Clone node js project
+3- Clone node js project [https://github.com/mongodb-university/csfle-guides/tree/master/nodejs]
 > git clone https://github.com/mongodb-university/csfle-guides.git
 > cd nodejs
 
