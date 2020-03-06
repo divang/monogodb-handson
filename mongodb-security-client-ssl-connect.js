@@ -1,3 +1,7 @@
+# First install npm and then mongoose lib
+# npm install mongoose --save
+# Run the client
+# node mongodb-security-client-ssl-connect.js
 console.log("Starting MongoDB Client ... ")
 var fs = require('fs')
       , mongoose = require('mongoose')
