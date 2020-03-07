@@ -57,5 +57,5 @@ subject=/C=IN/ST=KA/L=BAN/O=client1-org/OU=SW/CN=client1/emailAddress=client@x.z
 14- Stop the non-ssl mongod server and run server with ssl enabled and authenticate with user name
 > mongod --sslMode requireSSL --sslPEMKeyFile skey.pem --sslCAFile ca-crt.pem  --bind_ip localhost --dbpath /opt/mongodb/data --clusterAuthMode x509
 
-9- Now connect the Sever with SSL certificate
+15- Now connect the Sever with SSL certificate
 > mongo --ssl --host localhost --sslPEMKeyFile clientAKey.pem --sslCAFile ca-crt.pem --authenticationDatabase '$external' --authenticationMechanism MONGODB-X509
