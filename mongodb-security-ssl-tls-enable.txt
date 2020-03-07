@@ -36,6 +36,7 @@ subject=/C=IN/ST=KA/L=BAN/O=client1-org/OU=SW/CN=client1/emailAddress=client@x.z
 
 11- Create pem file which need for mongo client
 > cat clientA-key.pem clientA-crt.pem > clientAKey.pem
+*[In windows, use 'type' in place of `cat`]
 
 12- Now start the server without ssl and add the above user via mongo shell. Run server
 > mongod --dbpath /opt/mongodb/data
