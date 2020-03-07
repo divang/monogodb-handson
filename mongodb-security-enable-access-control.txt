@@ -35,6 +35,7 @@ who has readWrite role in the test database as well as read role in the reportin
              { role: "read", db: "reporting" } ]
   }
 )
+-> Now exit from admin user mongo client, because it has admin priviledge.
 
 8- Connect to the instance and authenticate as myTester (while connection)
 > mongo --port 27017 -u "myTester" --authenticationDatabase "test" -p
