@@ -26,7 +26,7 @@ the client will be identified as a cluster member and granted full permission on
 > openssl genrsa -out clientA-key.pem 4096
 
 9- Generate a signing request
-> opensslreq -new -sha256 -key clientA-key.pem -out clientA-csr.pem
+> openssl req -new -sha256 -key clientA-key.pem -out clientA-csr.pem
 
 10- Perform the signing
 > openssl x509 -req -days 365 -in clientA-csr.pem -CA ca-crt.pem -CAkey ca-key.pem -CAcreateserial -out clientA-crt.pem
