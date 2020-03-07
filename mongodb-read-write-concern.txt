@@ -1,0 +1,12 @@
+1- Start MongoDB server
+> mongo --dbpath /opt/mongodata
+
+2- Connect via mongo client
+> mongo
+
+3- Insert with write concern
+> db.foo.insert({x:30,y:40}, {writeConcern: {w:1, j: true, wtimeout:100}})
+
+4- Get with read concern
+> db.foo.find().readConcern("available")
+
