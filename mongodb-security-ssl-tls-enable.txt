@@ -21,6 +21,7 @@ the client will be identified as a cluster member and granted full permission on
 
 7- Create pem file which need for mongoDB 
 > cat server-key.pem  server-crt.pem >skey.pem
+*[In windows, use 'type' in place of `cat`]
 
 8- Generating certificate for first client
 > openssl genrsa -out clientA-key.pem 4096
