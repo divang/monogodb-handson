@@ -24,6 +24,8 @@ db.collection.createIndex( <key and index type specification>, <options> )
 )
 
 * 1 indicates ascending order and -1 specifies the descending order.
+* Unique Index on a Single Field
+> db.collection.createIndex( { "a.loc": 1, "a.qty": 1 }, { unique: true } )
 
 6- Index Types
 i- Single Field Create
@@ -40,6 +42,30 @@ db.collection.createIndex( { <field1>: <type>, <field2>: <type2>, ... } )
 iii- Multikey Index: 
 MongoDB uses multikey indexes to index the content stored in arrays. 
 If you index a field that holds an array value, 
+db.coll.createIndex( { <field>: < 1 or -1 > } )
+>db.collection.insert( { _id: 2, a: [ { loc: "A" }, { qty: 5 } ] } )
+>db.collection.insert( { _id: 3, a: [ { loc: "A", qty: 10 } ] } )
+>db.collection.createIndex( { "a.loc": 1, "a.qty": 1 }, { unique: true } )
+
+iv- Text Index:
+MongoDB provides text indexes to support text search queries on string content. 
+text indexes can include any field whose value is a string or an array of string elements.
+>db.reviews.createIndex( { comments: "text" } )
+>db.reviews.createIndex(
+   {
+     subject: "text",
+     comments: "text"
+   }
+ )
+ 
+v- Hashed Indexes
+Hashed sharding uses a hashed index to partition data across your shared cluster. Hashed indexes compute the hash value of a single field as the index value; this value is used as your shard key
+> db.collection.createIndex( { _id: "hashed" } )
+
+*Shard the Collection
+Use the sh.shardCollection() method, specifying the full namespace of the collection and the target hashed index to use as the shard key.
+sh.shardCollection( "database.collection", { <field> : "hashed" } )
+
 
 
 
