@@ -1,0 +1,46 @@
+Indexes: 
+1- Support the efficient execution of queries in MongoDB. 
+Without indexes, MongoDB must perform a collection scan, 
+i.e. scan every document in a collection, to select those documents 
+that match the query statement. If an appropriate index exists for a query, 
+MongoDB can use the index to limit the number of documents it must inspect.
+
+2- Fundamentally, indexes in MongoDB are similar to indexes in other database systems. 
+MongoDB defines indexes at the collection level and supports indexes on any field or 
+sub-field of the documents in a MongoDB collection.
+
+3- MongoDB indexes use a B-tree data structure.
+
+4- Default _id Index
+MongoDB creates a unique index on the _id field during the creation of a collection. 
+The _id index prevents clients from inserting two documents with the same value for the _id field. 
+You cannot drop this index on the _id field.
+
+5- Create an Index
+db.collection.createIndex( <key and index type specification>, <options> )
+> db.products.createIndex(
+  { item: 1, quantity: -1 } ,
+  { name: "query for inventory" }
+)
+
+* 1 indicates ascending order and -1 specifies the descending order.
+
+6- Index Types
+i- Single Field Create
+>db.records.createIndex( { a: 1 } )
+Ascending
+>db.records.find().sort( { a: 1 } )
+Descending
+>db.records.find().sort( { a: -1 } )
+
+ii- Compound Index
+db.collection.createIndex( { <field1>: <type>, <field2>: <type2>, ... } )
+>db.products.createIndex( { "item": 1, "stock": 1 } )
+
+iii- Multikey Index: 
+MongoDB uses multikey indexes to index the content stored in arrays. 
+If you index a field that holds an array value, 
+
+
+
+
