@@ -49,11 +49,12 @@ If you index a field that holds an array value,
 iv- Text Index:
 MongoDB provides text indexes to support text search queries on string content. 
 text indexes can include any field whose value is a string or an array of string elements.
->db.reviews.createIndex( { comments: "text" } )
->db.reviews.createIndex(
+>use blog
+>db.post.createIndex( { comments: "text" } )
+>db.post.createIndex(
    {
      subject: "text",
-     comments: "text"
+     comment: "text"
    }
  )
  
@@ -64,8 +65,3 @@ Hashed sharding uses a hashed index to partition data across your shared cluster
 *Shard the Collection
 Use the sh.shardCollection() method, specifying the full namespace of the collection and the target hashed index to use as the shard key.
 sh.shardCollection( "database.collection", { <field> : "hashed" } )
-
-
-
-
-
