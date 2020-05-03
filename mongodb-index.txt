@@ -42,10 +42,9 @@ db.collection.createIndex( { <field1>: <type>, <field2>: <type2>, ... } )
 iii- Multikey Index: 
 MongoDB uses multikey indexes to index the content stored in arrays. 
 If you index a field that holds an array value, 
-db.coll.createIndex( { <field>: < 1 or -1 > } )
->db.collection.insert( { _id: 2, a: [ { loc: "A" }, { qty: 5 } ] } )
->db.collection.insert( { _id: 3, a: [ { loc: "A", qty: 10 } ] } )
->db.collection.createIndex( { "a.loc": 1, "a.qty": 1 }, { unique: true } )
+>db.location.insert( { _id: 2, a: [ { loc: "A" }, { qty: 5 } ] } )
+>db.location.insert( { _id: 3, a: [ { loc: "A", qty: 10 } ] } )
+>db.location.createIndex( { "a.loc": 1, "a.qty": 1 }, { unique: true } )
 
 iv- Text Index:
 MongoDB provides text indexes to support text search queries on string content. 
